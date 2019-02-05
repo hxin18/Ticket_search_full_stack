@@ -1,0 +1,53 @@
+
+  <div class="col-md-10 offset-md-1 errormsg"  [hidden]="failed||hasresult">
+    <div class="alert alert-warning col-md-10 offset-md-1" role="alert">
+      No records.
+    </div>
+  </div>
+  <!-- FAILED TO GET SEARCH RESULTS -->
+  <div class="col-md-10 offset-md-1 errormsg"  [hidden]="!failed">
+    <div class="alert alert-danger col-md-10 offset-md-1" role="alert">
+      Failed to get search results.
+    </div>
+  </div>
+
+
+
+<div *ngIf="hasresult" class="col-md-12  outputTable">
+  <div>
+    <button class="btn btn-outline-secondary float-right mb-2"  [disabled]="cur_event==undefined" [class.hide]="!(hasResult&&num_result>0)" (click)="move_to()" > Details <i class="material-icons">
+      chevron_right
+    </i>
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <div class="y-scroll x-scroll">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Event</th>
+        <th scope="col" >Category</th>
+        <th scope="col">Venue Info</th>
+        <th scope="col">Favourite</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- <tr *ngFor="let place of result.page0.results; index as i" [ngClass]="currentPage == 'page0' && currentRow == i ? 'myTable-warning' : ''"> -->
+      <tr [class.current_e]=" cur_event && event.id == cur_event.id" *ngFor="let event of tabledata;  index as i;trackBy: trackByFn">
+        <td nowrap>{{i + 1}}</td>
+        <td nowrap>{{event.date}}</td>
+        <td nowrap><a [routerLink]="" (click)="search_detail(event.id)"  [matTooltip]="event.name">{{get_abbv(event.name)}}</a></td>
+        <td nowrap *ngIf="event.genre&&event.type&&event.type!='Undefined'&&event.genre!='Undefined'">{{event.genre}}-{{event.type}}</td>
+        <td nowrap *ngIf="(!event.genre||event.genre=='Undefined')&&event.type&&event.type!='Undefined'">{{event.type}}</td>
+        <td nowrap *ngIf="(!event.type||event.type=='Undefined')&&event.genre&&event.genre!='Undefined'">{{event.genre}}</td>
+        <td nowrap>{{event.venue}}</td>
+        <td nowrap><button class="btn btn-outline" (click)="add_fav(event)"  ><i class="material-icons" [class.favorited]="like(event)==='star'">{{like(event)}}</i></button></td>
+      </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>

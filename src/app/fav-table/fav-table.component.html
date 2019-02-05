@@ -1,0 +1,44 @@
+
+<div id="errormsg" *ngIf="favourite.length==0">
+  <div  class="col-md-10 offset-md-1 error" >
+    <div class="alert alert-warning col-md-10 offset-md-1" >
+      No records.
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngIf="favourite.length>0" class="col-md-12  outputTable">
+  <button class="btn btn-outline-secondary float-right mb-2"  [disabled]="cur_event==undefined" [class.hide]="!(hasResult&&num_result>0)" (click)="move_to()" > Details <i class="material-icons">
+    chevron_right
+  </i>
+  </button>
+  <!-- TABLE -->
+  <div class="table-responsive">
+    <div class="y-scroll x-scroll">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Event</th>
+        <th scope="col" >Category</th>
+        <th scope="col">Venue Info</th>
+        <th scope="col">Favourite</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr [class.current_e]=" cur_event && event.id == cur_event.id" *ngFor="let event of favourite;  index as i;trackBy: trackByFn">
+        <td nowrap>{{i + 1}}</td>
+        <td nowrap>{{event.date}}</td>
+        <td nowrap><a [routerLink]="" (click)="search_detail(event.id)"  [matTooltip]="event.name">{{get_abbv(event.name)}}</a></td>
+        <td nowrap>{{event.genre}}-{{event.type}}</td>
+        <td nowrap>{{event.venue}}</td>
+        <td nowrap><button class="btn btn-outline" (click)="del_fav(event)"  ><i class="material-icons">delete</i></button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--</div>-->

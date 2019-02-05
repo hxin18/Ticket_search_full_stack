@@ -1,0 +1,27 @@
+
+
+.loader{
+  margin-top: 10%;
+
+}
+
+.slide-div {
+  flex: 1;
+  position: relative;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+.material-icons {
+  display: inline-block;
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: middle;
+  transform: translateY(-.1em);
+
+}

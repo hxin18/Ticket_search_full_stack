@@ -1,0 +1,13 @@
+
+.photo-col {
+  display: flex;
+  justify-content: center;
+  border:none;
+  /* margin-bottom: 10px; */
+}
+
+img {
+
+  margin-bottom: 10px;
+}
+

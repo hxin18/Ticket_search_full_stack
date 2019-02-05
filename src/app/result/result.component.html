@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row justify-content-center" style="padding-top: 1%">
+    <input type="button" [ngClass]="( isShowResult) ?  'btn btn-primary' : 'btn btn-light text-primary'"  value="Results" (click)="showResult()">
+    <input type="button" [ngClass]="( isShowResult) ?  'btn btn-light text-primary': 'btn btn-primary'"  value="Favorites" (click)="showFavorite()">
+  </div>
+
+
+  <div id="slide-container" [@detailsAnimation]="active" class="container" >
+    <div class="slide-div" [class.hide]="active == 'right'">
+      <div>
+        <app-details [loader]="loader" [(cur_event)]="cur_event" [class.hide]="initial" [(childStatus)]="active"  [(favourite)]="favourite" ></app-details>
+      </div>
+    </div>
+    <div class="slide-div" [class.hide]="active == 'left'">
+      <div>
+        <div class="loader" [hidden]="!loader">
+          <app-loader></app-loader>
+        </div>
+        <app-res-table [(cur_event)]="cur_event" [(childStatus)]="active" [class.hide]="!isShowResult||initial||loader" [tabledata]="getData()" [(favourite)]="favourite" [failed]="!hasResult"[hasresult]="hasResult&&num_result>0"></app-res-table>
+        <app-fav-table [(cur_event)]="cur_event" [class.hide]="isShowResult||loader" [(favourite)]="favourite" [(childStatus)]="active"  ></app-fav-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+

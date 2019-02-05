@@ -1,0 +1,34 @@
+<div style="margin: auto">
+  <div class="photos-container" *ngIf="photos" class="row" style="display:flex;justify-content: center;">
+    <div  class="col-sm-3 photo">
+      <div *ngIf="col1">
+        <a *ngFor="let photo of col1" [href]="photo" target="_blank">
+          <img [src]="photo" alt="" style="width: 99%;max-height: 100%;">
+        </a>
+      </div>
+    </div>
+    <div id="photo-col-2" class="col-sm-3 photo">
+      <div *ngIf="col2"><a *ngFor="let photo of col2" [href]="photo" target="_blank">
+        <img [src]="photo" alt="" style="width: 99%;max-height: 100%;">
+      </a></div>
+    </div>
+    <div id="photo-col-3" class="col-sm-3 photo">
+      <div *ngIf="col3"><a *ngFor="let photo of col3" [href]="photo" target="_blank">
+        <img  [src]="photo" alt="" style="width: 99%;max-height: 100%;">
+      </a></div>
+    </div>
+  </div>
+
+  <div  class="col-md-10 offset-md-1 error" *ngIf="!photos" >
+    <div class="alert alert-warning col-md-10 offset-md-1" >
+      No records.
+    </div>
+  </div>
+
+
+  <!-- <div *ngFor="let photo of photos" class="photo-container">
+    <a [href]="photo.getUrl({'maxWidth': photo.width})" target="_blank">
+      <img class="img-thumbnail" [src]="photo.getUrl({'maxWidth': 400})" alt="">
+    </a>
+  </div> -->
+</div>

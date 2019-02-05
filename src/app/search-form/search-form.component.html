@@ -1,0 +1,83 @@
+<div class="card card-body bg-light container mt-2 container">
+  <h5 class="form-group" style="text-align: center; margin-top: 15px">Entertainment Event Ticket Search</h5>
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group row">
+          <div class="col-md-2 offset-md-2">
+            <label for="keyword">Keyword<span style="color:red">*</span></label>
+          </div>
+          <div class="col-sm-6">
+            <input [ngClass]="{'form-control': true, 'is-invalid': (keyword.touched) && keyword.value.trim().length == 0}" type="text"
+                   matInput [matAutocomplete]="auto"  name="keyword" id="keyword" required [(ngModel)]="form.keyword" #keyword="ngModel"
+                   placeholder="Enter Artist, Team or Event Name (eg. Lakers)"  (keyup)="auto_complete(keyword.value)">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of options" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+            <div class="invalid-feedback">Please enter a keyword.</div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-2 offset-md-2">
+            <label for="category">Category</label>
+          </div>
+          <div class="col-sm-2">
+            <select class="custom-select" name="category" id="category" [(ngModel)]="form.category" #category="ngModel">
+              <option *ngFor="let type of searchTypes" [value]="type">{{type}}</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+
+          <div class="col-md-2 offset-md-2">
+            <label for="distance">Distance (miles)</label>
+          </div>
+          <div class="col-sm-2">
+            <input class="form-control" type="text" name="distance" id="distance" placeholder="10" value="" [(ngModel)]="form.distance"
+                   #distance="ngModel">
+          </div>
+          <div class="col-sm-2">
+            <select class="custom-select" name="measure"  [(ngModel)]="form.measure" #category="ngModel">
+              <option *ngFor="let type of measureTypes" [value]="type">{{type}}</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <div class="col-md-2 offset-md-2">
+            <label for="keyword">From<span style="color:red">*</span></label>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="is_user_input" checked [value]="false" [(ngModel)]="form.isUserInput" #is_user_input="ngModel">
+              <label class="form-check-label" >Current location</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="is_user_input" [value]="true" [(ngModel)]="form.isUserInput" #is_user_input="ngModel">
+              <label class="form-check-label">Other, Please specify:</label>
+              <input  [ngClass]="{'form-control': true, 'is-invalid': (location.touched) && location.value.trim().length == 0}" type="text"
+                      name="loc-input" required [disabled]="!form.isUserInput"  [(ngModel)]="form.location" #location="ngModel">
+              <div class="invalid-feedback">Please enter a location</div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-6 offset-md-2">
+            <button type="submit" class="btn btn-primary"  [disabled]="!form.distance || !form.keyword || (form.isUserInput&&!form.location)">
+              <i class="material-icons">search</i> Search</button>
+            <button type="reset" class="btn btn-outline-secondary"  (click)="clear_all()"> <i class="material-icons">clear_all</i>Clear</button>
+          </div>
+        </div>
+      </form>
+</div>
+
+
+
+
+

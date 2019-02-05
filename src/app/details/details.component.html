@@ -1,0 +1,220 @@
+<div id="details-button" >
+  <div style="text-align: center; margin-bottom: 10px; margin-top: 10px" *ngIf="cur_event">
+    <h4>{{cur_event.name}}</h4>
+  </div>
+
+  <button class="btn btn-outline-secondary float-left" (click)="back_to_list()" >
+    <i class="material-icons">
+      chevron_left
+    </i>List</button>
+  <div class="float-right">
+    <a class="twitter-share-button"
+       [href]="url" target="_blank">
+      <img id="tweet" src="http://csci571.com/hw/hw8/Images/Twitter.png" alt="tweet">
+    </a>
+    <button class="btn btn-outline" (click)="add_fav(cur_event)">
+      <i class="material-icons" [class.favorited]="like(cur_event)==='star'">{{like(cur_event)}}</i>
+    </button>
+  </div>
+  &nbsp;
+</div>
+
+
+
+<div id="details_body" style="margin-top: 20px">
+
+<div class="nowrap">
+
+<ul class="nav nav-tabs justify-content-end flex-nowrap y-scroll x-scroll" style="margin-bottom: 10px" *ngIf="displayWidth>600">
+
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="selected=='event'"  data-toggle="tab" href="#event" role="tab"  aria-selected="true" (click)="selected='event'">Event</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="selected=='at'" data-toggle="tab" href="#at" role="tab"  aria-selected="false" (click)="selected='at'">Artist/Teams</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="selected=='venue'" data-toggle="tab" href="#venue" role="tab" aria-selected="false" (click)="selected='venue'">Venue</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="selected=='ue'" data-toggle="tab" href="#ue" role="tab" aria-selected="false" (click)="selected='ue'">Upcoming Events</a>
+  </li>
+</ul>
+
+  <ul class="nav nav-tabs  flex-nowrap y-scroll x-scroll" style="max-width:100%; margin-bottom: 10px" *ngIf="displayWidth<=600">
+
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="selected=='event'" id="nav-info" data-toggle="tab" href="#event" role="tab"  aria-selected="true" (click)="selected='event'">Event</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="selected=='at'" data-toggle="tab" href="#at" role="tab"  aria-selected="false" (click)="selected='at'">Artist/Teams</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="selected=='venue'" data-toggle="tab" href="#venue" role="tab" aria-selected="false" (click)="selected='venue'">Venue</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="selected=='ue'" data-toggle="tab" href="#ue" role="tab" aria-selected="false" (click)="selected='ue'">Upcoming</a>
+    </li>
+  </ul>
+</div>
+  <div class="loader" [hidden]="!loader" style="margin-top: 10%;margin-bottom: 40%">
+    <app-loader></app-loader>
+  </div>
+
+
+  <div [hidden]="loader" >
+
+    <div class="col-md-10 offset-md-1 errormsg"  [hidden]="!detailErr">
+      <div class="alert alert-danger col-md-10 offset-md-1" role="alert">
+        Failed to get search results.
+      </div>
+    </div>
+
+    <div [hidden]="detailErr" >
+  <div class="tab-pane" *ngIf="selected=='event'"  id="info" role="tabpanel" aria-labelledby="info-tab">
+    <div class="x-scroll y-scroll">
+      <table *ngIf="detail" class="table table-striped">
+        <tbody>
+        <tr *ngIf="detail.attractions">
+          <th nowrap scope="row">Artist/Teams</th>
+          <td >{{detail.attractions.join('|')}}</td>
+        </tr>
+        <tr *ngIf="detail.venue">
+          <th nowrap scope="row">Venue</th>
+          <td nowrap>{{detail.venue}}</td>
+        </tr>
+        <tr *ngIf="detail.Time.localDate||detail.Time.localTime">
+          <th nowrap scope="row">Time</th>
+          <td  *ngIf="detail.Time.localDate&&detail.Time.localTime">{{detail.Time.localDate+" "+detail.Time.localTime}}</td>
+          <td  *ngIf="detail.Time.localDate&&detail.Time.localTime==undefined">{{detail.Time.localDate}}</td>
+        </tr>
+        <tr *ngIf="detail.category">
+          <th nowrap scope="row">Category</th>
+          <td nowrap *ngIf="detail.category[0]&&detail.category[0]!='Undefined'&&detail.category[1]!='Undefined'&&detail.category[1]">{{detail.category.join('|')}}</td>
+          <td nowrap *ngIf="(detail.category[0]==undefined||detail.category[0]=='Undefined')&&detail.category[1]">{{detail.category[1]}}</td>
+          <td nowrap *ngIf="(detail.category[1]==undefined||detail.category[1]=='Undefined')&&detail.category[0]">{{detail.category[0]}}</td>
+        </tr>
+        <tr *ngIf="detail.priceRange">
+          <th nowrap scope="row">Price Range</th>
+          <td nowrap>${{detail.priceRange[0]}}~${{detail.priceRange[1]}}</td>
+        </tr>
+        <tr *ngIf="detail.status">
+          <th nowrap scope="row">Ticket Status</th>
+          <td nowrap>{{detail.status}}</td>
+        </tr>
+        <tr *ngIf="detail.url">
+          <th nowrap scope="row">Buy Tickets At</th>
+          <td nowrap><a  [href]="detail.url" target="_blank" > TicketMaster</a></td>
+        </tr>
+        <tr *ngIf="detail.seat_map">
+          <th nowrap scope="row">Seat Map</th>
+          <td nowrap><a href="#" (click)="open()">View Seat Map Here </a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<div  *ngIf="selected=='at'">
+  <div  class="col-md-10 offset-md-1 error" [hidden]="images" style="margin-top: 20px" >
+    <div class="alert alert-warning col-md-10 offset-md-1" >
+      No records.
+    </div>
+  </div>
+  <div id="photo"*ngFor="let image of images,index as i" [hidden]="!images" style="text-align:center;">
+    <div style="margin: auto;"><h6><b>{{detail.attractions[i]}}</b></h6></div>
+    <app-artist-table *ngIf="cur_event && cur_event.type=='Music'" [artist]="artists[i]" style="margin-top: 20px"></app-artist-table>
+    <app-photo [photos]="image.fig"></app-photo>
+  </div>
+</div>
+
+
+<div class="tab-pane" *ngIf="selected=='venue'"  id="info2" role="tabpanel" aria-labelledby="info-tab">
+  <div class="col-md-10 offset-md-1 errormsg"  [hidden]="!venueErr">
+    <div  class="col-md-10 offset-md-1 error"  style="margin-top: 20px" >
+      <div class="alert alert-warning col-md-10" >
+        No records.
+      </div>
+    </div>
+  </div>
+  <div class="y-scroll" [hidden]="venueErr">
+    <div *ngIf="venue" style="text-align: center"><h5>{{venue.name}}</h5></div>
+    <table *ngIf="venue" class="table table-striped" >
+      <tbody>
+      <tr *ngIf="venue.address">
+        <th nowrap scope="row">Address</th>
+        <td>{{venue.address}}</td>
+      </tr>
+      <tr *ngIf="venue.state_city">
+        <th nowrap scope="row">City</th>
+        <td >{{venue.state_city}}</td>
+      </tr>
+      <tr *ngIf="venue.phone">
+        <th nowrap scope="row">Phone Number</th>
+        <td >{{venue.phone}}</td>
+      </tr>
+      <tr *ngIf="venue.openhour">
+        <th nowrap scope="row">Open Hour</th>
+        <td >{{venue.openhour}}</td>
+      </tr>
+      <tr *ngIf="venue.generalrule">
+        <th nowrap scope="row">General Rule</th>
+        <td >{{venue.generalrule}}</td>
+      </tr>
+      <tr *ngIf="venue.childrule">
+        <th nowrap scope="row">Child Rule</th>
+        <td>{{venue.childrule}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <agm-map *ngIf="venue" [latitude]="venue.location.lat"
+             [longitude]="venue.location.lng"
+             [zoom]="zoom"
+             [mapDraggable]="false"
+    >
+      <agm-marker [latitude]="venue.location.lat" [longitude]="venue.location.lng" ></agm-marker>
+    </agm-map>
+  </div>
+</div>
+
+<div *ngIf="selected=='ue'">
+  <div id="errormsg" *ngIf="comming==undefined || (comming &&comming.length==0)">
+    <div  class="col-md-10 offset-md-1 error"   style="margin-top: 20px">
+      <div class="alert alert-warning col-md-10 offset-md-1" >
+        No records.
+      </div>
+    </div>
+  </div>
+<div *ngIf="comming && comming.length>0">
+  <div class="row" style="margin-left: 0px">
+      <select [(ngModel)]="selectedType" (change)="setOrder(selectedType)"  class="col-sm-3 custom-select" name="selectedType" id="selectedType" >
+        <option  *ngFor="let type of orderby; index as i" value="{{i}}" >{{type}}</option>
+      </select>
+    <select [(ngModel)]="mode" class="col-sm-3 custom-select" name="mode" id="mode" (change)="setmode(mode)"  [disabled]="selectedType==0" >
+      <option  *ngFor="let type of way; index as i"  value="{{i}}">{{type}}</option>
+    </select>
+  </div>
+
+
+
+
+  <div id="short" *ngFor="let e of short_display" >
+    <app-event [info]="e"></app-event>
+  </div>
+  <div>
+  <div>
+  <div  *ngIf="show=='Less'" @show>
+    <div id="upcomming" *ngFor="let e of comming_display" >
+      <app-event [info]="e"></app-event>
+
+  </div>
+
+  </div>
+    <div style="width: 100%" align="center">
+      <button class="btn btn-primary" id="moreless_btn" (click)="change_show()" >Show {{show}}</button>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+  </div>

@@ -1,0 +1,24 @@
+.material-icons {
+  display: inline-block;
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: middle;
+  transform: translateY(-.1em);
+
+}
+.btn-outline {
+  border: 1px solid;
+  border-color: darkgray;
+  background-color:white;
+}
+
+
+#errormsg {
+  padding: 5% ;
+  margin: auto;
+}
+
+
+.current_e {
+  background-color: #f7dda1;
+}

@@ -1,0 +1,33 @@
+<div  *ngIf="artist" >
+  <div class="y-scroll">
+    <table class="table table-striped">
+      <tbody>
+      <tr *ngIf="artist.name">
+        <th class="nowrap" scope="row">Name</th>
+        <td class="nowrap">{{artist.name}}</td>
+      </tr>
+      <tr *ngIf="artist.follower">
+        <th class="nowrap" scope="row">Follower</th>
+        <td class="nowrap">{{(artist.follower).toLocaleString('en-us')}}</td>
+      </tr>
+      <tr *ngIf="artist.popularity">
+        <th class="nowrap" scope="row">Popularity</th>
+        <td class="nowrap">
+        <div class="progress-wrapper">
+          <div class="progress_num">
+            {{artist.popularity}}
+          </div>
+          <div class="bar">
+            <round-progress [current]="artist.popularity" [radius]="20" [stroke]="3" [max]="100" [color]="'#8db751'"></round-progress></div>
+
+        </div>
+        </td>
+      </tr>
+      <tr *ngIf="artist.url">
+        <th class="nowrap" scope="row">Check At</th>
+        <td class="nowrap"><a  [href]="artist.url" target="_blank"> Spotify</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

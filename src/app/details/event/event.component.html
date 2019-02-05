@@ -1,0 +1,12 @@
+<div class="card mt-2">
+  <div class="card-body">
+    <a [href]="info.url" target="_blank" style="color: dodgerblue"><b>{{info.displayName}}</b></a>
+
+    <div id="second">
+      <div id="artist" style="display: inline; color:orangered">Artists:{{info.artists[0]}} </div>
+      <div id="date" style="display: inline; color:gray">{{info.date.date| date:"MMM d, yyyy"}} </div>
+      <div id="time" *ngIf="info.date.time" style="display: inline; color:gray">{{info.date.time}}</div>
+    </div>
+    <div id="type">Type: {{info.type}}</div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+.material-icons {
+  display: inline-block;
+  font-size: inherit;
+  line-height: inherit;
+  vertical-align: middle;
+  transform: translateY(-.1em);
+
+}
+
+.errormsg {
+  padding: 5% ;
+  margin: auto;
+}
+
+.favorited {
+  color: orange;
+}
+.current_e {
+  background-color: #f7dda1;
+}
+
+.btn-outline {
+  border: 1px solid;
+  border-color: darkgray;
+  background-color:white;
+}
+
+a{
+  color: blue;
+  text-decoration: underline;
+
+}
